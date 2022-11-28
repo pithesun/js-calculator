@@ -1,69 +1,74 @@
-import ERROR_MESSAGE from "../const/ERROR_MESSAGE.js";
+import { ERROR_MESSAGES } from "../const/constants.js";
+
+Calculator.prototype.setPrev = function (num) {
+  this.prev = num;
+};
+
+Calculator.prototype.getPrev = function () {
+  return this.prev || 0;
+};
+
+Calculator.prototype.setCur = function (num) {
+  this.cur = num;
+};
+
+Calculator.prototype.getCur = function () {
+  return this.cur || 0;
+};
+
+Calculator.prototype.setOperator = function (operator) {
+  this.operator = operator;
+};
+
+Calculator.prototype.getOperator = function () {
+  return this.operator;
+};
+
+Calculator.prototype.getOperator = function () {
+  return this.operator;
+};
+
+Calculator.prototype.setRoundingModeDown = function (func) {
+  return function () {
+    const result = func.call(this);
+    return Math.floor(result);
+  };
+};
+
+Calculator.prototype.cal = Calculator.prototype.setRoundingModeDown(
+  function () {
+    if (!this.prev || !this.cur) throw new Error(ERROR_MESSAGES.PARAM_MISSING);
+
+    switch (this.operator) {
+      case "+":
+        return this.sum();
+      case "-":
+        return this.abstract();
+      case "X":
+        return this.multiply();
+      case "/":
+        return this.divide();
+    }
+  }
+);
+
+Calculator.prototype.sum = function () {
+  return this.getPrev() + this.getCur();
+};
+Calculator.prototype.abstract = function () {
+  return this.getPrev() - this.getCur();
+};
+Calculator.prototype.multiply = function () {
+  return this.getPrev() * this.getCur();
+};
+Calculator.prototype.divide = function () {
+  return this.getPrev() / this.getCur();
+};
 
 export default function Calculator() {
-  this.setPrev = function (num) {
-    this.prev = num;
-  };
+  this.prev, this.cur, this.operator;
 
-  this.setCur = function (num) {
-    this.cur = num;
-  };
-
-  this.setOperator = function (operator) {
-    this.operator = operator;
-  };
-
-  this.getPrev = function () {
-    return this.prev;
-  };
-
-  this.getCur = function () {
-    return this.cur;
-  };
-
-  this.getOperator = function () {
-    return this.operator;
-  };
-
-  this.setRoundingModeDown = function (func) {
-    return function () {
-      let result = func.call(this);
-      return Math.floor(result);
-    };
-  };
-
-  this.cal = this.setRoundingModeDown(function () {
-    if (
-      this.prev == null ||
-      this.prev == "undefined" ||
-      this.cur == null ||
-      this.prev == "undefined"
-    )
-      throw new Error(ERROR_MESSAGE.PARAM_MISSING);
-
-    if (this.operator == "+") {
-      return this.sum();
-    } else if (this.operator == "-") {
-      return this.abstract();
-    } else if (this.operator == "X") {
-      return this.multiply();
-    } else if (this.operator == "/") {
-      return this.divide();
-    }
-  });
-
-  this.sum = function () {
-    return this.getPrev() + this.getCur();
-  };
-  this.abstract = function () {
-    return this.getPrev() - this.getCur();
-  };
-
-  this.multiply = function () {
-    return this.getPrev() * this.getCur();
-  };
-
-  this.divide = function () {
-    return this.getPrev() / this.getCur();
-  };
+  if (!new.target) {
+    throw new Error(ERROR_MESSAGES.WRONG_INSTANCE("calculator", "Calculator"));
+  }
 }

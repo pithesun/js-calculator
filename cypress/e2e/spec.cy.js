@@ -1,5 +1,5 @@
 import Calculator from "../../src/js/Calculator.js";
-import ERROR_MESSAGE from "../../src/const/ERROR_MESSAGE.js";
+import { ERROR_MESSAGES } from "../../src/const/constants.js";
 import CalculatorView from "../../src/js/CalculatorView.js";
 
 describe("계산기", () => {
@@ -38,11 +38,11 @@ describe("계산기", () => {
     });
     it("0개의 숫자를 받는 경우 에러를 던진다", () => {
       const actual = () => calculator.cal();
-      expect(actual).to.throw(ERROR_MESSAGE.PARAM_MISSING);
+      expect(actual).to.throw(ERROR_MESSAGES.PARAM_MISSING);
     });
     it("1개의 숫자만 받는 경우 에러를 던진다", () => {
       const actual = () => calculator.cal();
-      expect(actual).to.throw(ERROR_MESSAGE.PARAM_MISSING);
+      expect(actual).to.throw(ERROR_MESSAGES.PARAM_MISSING);
     });
   });
 });
@@ -82,7 +82,7 @@ describe("계산기 UI", () => {
 
   it("4자리 이상의 숫자를 입력한 경우 에러를 던진다", () => {
     const actual = () => calculatorView.updateNumber("1234");
-    expect(actual).to.throw(ERROR_MESSAGE.WRONG_NUMINPUT);
+    expect(actual).to.throw(ERROR_MESSAGES.WRONG_NUMINPUT);
   });
 
   it("1자리 이상 3자리 이하의 숫자를 입력받는다.", () => {
